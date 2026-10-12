@@ -1,0 +1,963 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Unit 9 At the Beach</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@600;700;800&display=swap">
+<style>
+/* Layout: sea-blue hero, then a narrow single column of big tappable cards. One task per screen. */
+:root{
+  --bg:#fff6e0; --card:#ffffff; --ink:#12313a; --muted:#4f6a70; --line:#ead9ae;
+  --sea:#0c7a86; --sea-d:#09535e; --sea-l:#d6f0ee;
+  --coral:#ff6a4a; --coral-d:#c8442a; --sun:#ffc83d; --sun-l:#fff0bf;
+  --good:#1c8a4d; --good-l:#d9f4e4; --bad:#c93a3a; --bad-l:#fde0e0;
+  --on-sea:#ffffff;
+  --f-display:'Baloo 2','Trebuchet MS',system-ui,sans-serif;
+  --f-body:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0b252b; --card:#123941; --ink:#eaf7f5; --muted:#a8c5c6; --line:#24505a;
+    --sea:#1aa2b0; --sea-d:#0b3f48; --sea-l:#17484f;
+    --coral:#ff8266; --coral-d:#ffb3a1; --sun:#ffd25e; --sun-l:#4a4020;
+    --good:#4cd08a; --good-l:#173f2c; --bad:#ff8a8a; --bad-l:#4a2326;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0b252b; --card:#123941; --ink:#eaf7f5; --muted:#a8c5c6; --line:#24505a;
+  --sea:#1aa2b0; --sea-d:#0b3f48; --sea-l:#17484f;
+  --coral:#ff8266; --coral-d:#ffb3a1; --sun:#ffd25e; --sun-l:#4a4020;
+  --good:#4cd08a; --good-l:#173f2c; --bad:#ff8a8a; --bad-l:#4a2326;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:18px;line-height:1.45;-webkit-tap-highlight-color:transparent}
+h1,h2,h3{font-family:var(--f-display);line-height:1.1;margin:0;text-wrap:balance}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:4px solid var(--sun);outline-offset:2px}
+.wrap{max-width:720px;margin:0 auto;padding-inline:16px;padding-block:20px 56px}
+
+/* top bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--sea-d);color:#fff}
+.barin{max-width:720px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:10px}
+.logo{font-family:var(--f-display);font-weight:800;letter-spacing:.02em;font-size:1rem;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.grow{flex:1}
+.chip{flex:none;display:inline-flex;align-items:center;gap:4px;white-space:nowrap;background:var(--sun);color:#3a2a00;font-weight:800;border-radius:99px;padding:4px 12px}
+.icon{flex:none;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.18);color:#fff;font-size:1.2rem}
+
+/* hero */
+.hero{background:linear-gradient(180deg,var(--sea) 0%,var(--sea-d) 100%);color:var(--on-sea);padding:22px 0 56px;border-radius:0 0 40px 40px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;left:-10%;right:-10%;bottom:-26px;height:56px;background:var(--sun);opacity:.9;border-radius:50% 50% 0 0/100% 100% 0 0}
+.herobox{max-width:720px;margin:0 auto;padding-inline:16px;position:relative;z-index:1}
+.eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;font-weight:800;opacity:.9}
+.hero h1{font-size:clamp(2.4rem,9vw,3.6rem);font-weight:800;margin-top:4px}
+.mascot{display:flex;gap:12px;align-items:flex-end;margin-top:16px}
+.crab{font-size:3.4rem;line-height:1;animation:bob 2.4s ease-in-out infinite}
+.bubble{background:#fff;color:#12313a;border-radius:20px 20px 20px 4px;padding:10px 14px;font-weight:700;min-width:0}
+
+/* sessions */
+h2.sec{font-size:1.5rem;margin:6px 0 14px}
+.sessions{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.ses{display:grid;grid-template-columns:76px minmax(0,1fr);gap:14px;background:var(--card);border:2px solid var(--line);border-radius:22px;padding:14px;align-items:center}
+.arts{position:relative;width:76px;height:76px}
+.art{width:76px;height:76px;border-radius:18px;display:block}
+.ses.locked .art{filter:grayscale(.85) opacity(.65)}
+.badge{position:absolute;right:-8px;top:-8px;font-size:1.4rem;line-height:1}
+.ses h3{font-size:1.25rem}
+.meta{color:var(--muted);font-size:.9rem;font-weight:700;margin-top:2px}
+.pill{display:inline-block;margin-top:8px;border-radius:99px;padding:3px 12px;font-size:.88rem;font-weight:800;background:var(--sea-l);color:var(--sea-d)}
+.ses.locked .pill{background:var(--sun-l);color:var(--ink)}
+.ses.done .pill{background:var(--good-l);color:var(--good)}
+.prog{height:8px;border-radius:9px;background:var(--line);margin-top:10px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--good)}
+
+/* buttons */
+.btn{background:var(--coral);color:#fff;border:0;border-bottom:5px solid var(--coral-d);border-radius:18px;padding:12px 22px;min-height:56px;font-weight:800;font-size:1.1rem}
+.btn:active{transform:translateY(3px);border-bottom-width:2px}
+.btn.alt{background:var(--sea);border-bottom-color:var(--sea-d)}
+.btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--line);border-bottom-width:4px}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.btn.sm{min-height:44px;padding:8px 16px;font-size:1rem}
+
+/* station frame */
+.dots{display:flex;gap:8px;overflow-x:auto;padding:4px 0 12px;margin-bottom:6px;scrollbar-width:thin}
+.dot{flex:none;width:40px;height:40px;border-radius:50%;border:2px solid var(--line);background:var(--card);font-weight:800;color:var(--muted)}
+.dot.cur{background:var(--sea);border-color:var(--sea-d);color:#fff}
+.dot.ok{background:var(--good);border-color:var(--good);color:#fff}
+.dot[disabled]{opacity:.45;cursor:not-allowed}
+.card{background:var(--card);border:2px solid var(--line);border-radius:24px;padding:20px 16px}
+.sthead{display:flex;gap:10px;align-items:baseline;justify-content:space-between;flex-wrap:wrap}
+.sthead h2{font-size:1.6rem}
+.mins{font-weight:800;color:var(--muted);font-size:.9rem}
+.ins{font-weight:800;margin-top:10px;font-size:1.15rem}
+.my{color:var(--muted);font-size:.95rem;font-weight:700;margin-top:2px}
+.rule{border:0;border-top:2px dashed var(--line);margin:16px 0}
+.play{min-height:260px}
+
+/* activity bits */
+.big{font-size:clamp(4rem,22vw,6.5rem);line-height:1.1;text-align:center}
+.phrase{font-family:var(--f-display);font-weight:800;font-size:clamp(1.8rem,7vw,2.6rem);text-align:center;text-wrap:balance}
+.center{text-align:center}
+.fc{display:grid;gap:10px;justify-items:center;text-align:center}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:18px;font-weight:800;color:var(--muted)}
+.hearbig{display:block;margin:6px auto 12px;width:104px;height:104px;border-radius:50%;border:0;background:var(--sun);font-size:3rem;box-shadow:0 6px 0 #d9a21c}
+.hearbig:active{transform:translateY(4px);box-shadow:0 2px 0 #d9a21c}
+.qt{font-family:var(--f-display);font-weight:700;font-size:1.5rem;text-align:center;margin:6px 0 14px;text-wrap:balance}
+.blank{display:inline-block;min-width:3.2ch;border-bottom:4px solid var(--coral);margin-inline:4px;vertical-align:baseline}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+.opt{background:var(--card);border:3px solid var(--line);border-bottom-width:6px;border-radius:20px;min-height:72px;padding:10px;display:flex;flex-direction:column;gap:2px;align-items:center;justify-content:center;font-weight:800;font-size:1.15rem;text-align:center;min-width:0;overflow-wrap:anywhere}
+.opt:active{transform:translateY(3px)}
+.opt .oe{font-size:2.6rem;line-height:1.1}
+.opt.ok{background:var(--good-l);border-color:var(--good)}
+.opt.bad{background:var(--bad-l);border-color:var(--bad);animation:shake .4s}
+.opt.reveal{background:var(--good-l);border-color:var(--good);animation:pulse 1s 2}
+.opt[disabled]{cursor:default}
+.fb{min-height:1.6em;text-align:center;font-weight:800;margin-top:12px;font-size:1.1rem}
+.fb.ok{color:var(--good)} .fb.bad{color:var(--bad)}
+.postcard{background:var(--sun-l);border:2px solid var(--line);border-left:8px solid var(--coral);border-radius:12px;padding:12px 14px;margin-bottom:14px;white-space:pre-line;font-weight:700}
+.bag{display:block;position:relative;width:84px;height:70px;border-radius:10px 10px 22px 22px;background:var(--c);margin:8px auto 2px;border:3px solid rgba(0,0,0,.25)}
+.bag::before{content:"";position:absolute;left:18px;right:18px;top:-18px;height:24px;border:5px solid var(--c);border-bottom:0;border-radius:20px 20px 0 0;filter:brightness(.8)}
+.bag .bk{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.7rem;letter-spacing:-.15em;padding-top:2px}
+.lbl{font-size:.95rem}
+
+/* match + memory */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.two .col{display:grid;gap:10px;align-content:start}
+.mc{min-height:68px;background:var(--card);border:3px solid var(--line);border-bottom-width:6px;border-radius:18px;font-weight:800;font-size:1.05rem;padding:6px;overflow-wrap:anywhere;min-width:0}
+.mc .oe{font-size:2.3rem;line-height:1}
+.mc.sel{border-color:var(--sea);background:var(--sea-l)}
+.mc.got{background:var(--good-l);border-color:var(--good);opacity:.75}
+.mc.bad{animation:shake .4s;border-color:var(--bad)}
+.mem{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media(min-width:520px){.mem{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.mem .mc{min-height:92px;font-size:.98rem}
+.mem .mc.down{background:var(--sea);border-color:var(--sea-d);color:#fff;font-size:2rem}
+
+/* build */
+.slot{min-height:72px;border:3px dashed var(--line);border-radius:18px;padding:8px;display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start;margin:10px 0}
+.bank{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:12px}
+.chipw{background:var(--sea);color:#fff;border:0;border-bottom:5px solid var(--sea-d);border-radius:14px;padding:8px 14px;font-weight:800;font-size:1.2rem;min-height:48px}
+.chipw.used{visibility:hidden}
+.slot .chipw{background:var(--sun);color:#3a2a00;border-bottom-color:#d9a21c}
+.slot.ok{border-color:var(--good);background:var(--good-l)}
+.slot.bad{animation:shake .4s;border-color:var(--bad)}
+
+/* act, done */
+.stage{font-size:clamp(5rem,28vw,8rem);text-align:center;animation:bob 1s ease-in-out infinite}
+.timer{height:12px;border-radius:9px;background:var(--line);overflow:hidden;margin:14px 0}
+.timer i{display:block;height:100%;width:0;background:var(--coral)}
+.donecard{text-align:center;display:grid;gap:12px;justify-items:center}
+.stars{font-size:2.6rem;letter-spacing:.1em}
+.stars span{display:inline-block;animation:pop .5s both}
+.stars span:nth-child(2){animation-delay:.15s}.stars span:nth-child(3){animation-delay:.3s}
+.cert{background:var(--sun-l);border:4px double var(--coral);border-radius:20px;padding:20px;display:grid;gap:6px;text-align:center}
+.cert h2{font-size:2rem}
+.banner{background:var(--sun-l);border:2px dashed var(--coral);border-radius:14px;padding:10px 14px;margin-bottom:16px;font-weight:700;font-size:.95rem}
+.namebox{display:grid;gap:12px}
+.namebox input{font:inherit;font-weight:800;font-size:1.3rem;padding:12px 16px;border-radius:16px;border:3px solid var(--line);background:var(--card);color:var(--ink);min-width:0;width:100%}
+.note{color:var(--muted);font-size:.9rem;font-weight:700;margin-top:18px}
+
+/* spell, hangman, catch, write, bonus */
+.word{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0}
+.ltr{width:44px;height:54px;border-bottom:5px solid var(--coral);display:flex;align-items:center;justify-content:center;font-family:var(--f-display);font-weight:800;font-size:2rem}
+.ltr.on{border-color:var(--good);color:var(--good)}
+.chipw.shk{animation:shake .4s}
+.hw{font-family:var(--f-display);font-weight:800;font-size:2.2rem;letter-spacing:.15em;text-align:center;text-transform:uppercase;overflow-wrap:anywhere;margin:6px 0 12px}
+.lives{text-align:center;font-size:1.5rem;letter-spacing:.1em}
+.kb{display:grid;grid-template-columns:repeat(auto-fit,minmax(42px,1fr));gap:8px}
+.key{min-height:46px;border-radius:12px;border:2px solid var(--line);border-bottom-width:4px;background:var(--card);font-weight:800;font-size:1.1rem;text-transform:uppercase}
+.key[disabled]{opacity:.4;cursor:default}
+.key.hit{background:var(--good-l);border-color:var(--good);opacity:1}
+.key.miss{background:var(--bad-l);border-color:var(--bad)}
+.hud{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.holes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.hole{min-height:96px;border:3px solid var(--line);border-bottom-width:8px;border-radius:50%/42%;background:var(--sun-l);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;min-width:0}
+.hole.up{background:var(--sea-l);border-color:var(--sea)}
+.hole .cr{font-size:2.2rem;line-height:1;animation:pop .25s both}
+.hole .cw{font-weight:800;font-size:.95rem;overflow-wrap:anywhere;line-height:1.1}
+.tasks{list-style:none;margin:12px 0 18px;padding:0;display:grid;gap:10px}
+.task{display:grid;grid-template-columns:40px minmax(0,1fr);gap:12px;align-items:start;text-align:left;width:100%;background:var(--card);border:3px solid var(--line);border-bottom-width:5px;border-radius:16px;padding:10px 12px;font-weight:700}
+.task .ck{width:36px;height:36px;border-radius:10px;border:3px solid var(--sea);display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:transparent}
+.task.on{background:var(--good-l);border-color:var(--good)}
+.task.on .ck{background:var(--good);border-color:var(--good);color:#fff}
+.cp{display:inline-block;background:var(--sun-l);border:2px dashed var(--coral);border-radius:10px;padding:1px 10px;margin:4px 4px 0 0;font-family:var(--f-display);font-weight:700;font-size:1.1rem}
+.bonus{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.bn{background:var(--card);border:3px solid var(--line);border-bottom-width:6px;border-radius:20px;min-height:100px;padding:10px;display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center;font-weight:800;text-align:center;min-width:0}
+.bn .oe{font-size:2.4rem;line-height:1}
+.bn:active{transform:translateY(3px)}
+
+@keyframes bob{50%{transform:translateY(-8px)}}
+@keyframes shake{20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+@keyframes pulse{50%{transform:scale(1.05)}}
+@keyframes pop{0%{transform:scale(0) rotate(-30deg)}70%{transform:scale(1.3)}100%{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<div id="app"></div>
+<script>
+/* ===================== TEACHER SETTINGS =====================
+   Change the "opens" time of each session here (Malaysia time, +08:00).
+   Add #teacher to the end of the link to open every session for a preview. */
+const SESSIONS = [
+  { id:'s1', day:'Tue', long:'Tuesday',  mins:120, title:'Beach words and suggestions', pages:'Book pages 106-109', opens:'2026-10-13T08:00:00+08:00' },
+  { id:'s2', day:'Thu', long:'Thursday', mins:90,  title:'The story and countries', pages:'Book pages 110-112', opens:'2026-10-15T11:20:00+08:00' },
+  { id:'s3', day:'Fri', long:'Friday',   mins:60,  title:'Holiday weather', pages:'Book pages 114-117', opens:'2026-10-16T10:50:00+08:00' }
+];
+
+/* ===================== HELPERS ===================== */
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function mkOpts(correct,pool,n,fmt){
+  const others=shuffle(pool.filter(x=>x!==correct)).slice(0,n-1);
+  const list=shuffle([correct,...others]);
+  return { opts:list.map(fmt), a:list.indexOf(correct) };
+}
+
+/* ===================== WORD BANKS ===================== */
+const V = [
+  { k:'fish',   e:'🎣', t:'catch a fish',    my:'tangkap ikan',   verb:'catch',  rest:'a fish' },
+  { k:'paint',  e:'🎨', t:'paint a picture', my:'lukis gambar',   verb:'paint',  rest:'a picture' },
+  { k:'ice',    e:'🍦', t:'eat ice cream',   my:'makan aiskrim',  verb:'eat',    rest:'ice cream' },
+  { k:'photo',  e:'📷', t:'take a photo',    my:'ambil gambar',   verb:'take',   rest:'a photo' },
+  { k:'music',  e:'🎧', t:'listen to music', my:'dengar muzik',   verb:'listen', rest:'to music' },
+  { k:'shells', e:'🐚', t:'look for shells', my:'cari kerang',    verb:'look',   rest:'for shells' },
+  { k:'book',   e:'📖', t:'read a book',     my:'baca buku',      verb:'read',   rest:'a book' },
+  { k:'castle', e:'🏰', t:'make a sandcastle', my:'buat istana pasir', verb:'make', rest:'a sandcastle' }
+];
+const VERBS = ['catch','paint','eat','take','listen','look','read','make'];
+const W = [
+  { k:'sunny',  e:'☀️', t:"It's sunny.",   my:'cerah' },
+  { k:'hot',    e:'🥵', t:"It's hot.",     my:'panas' },
+  { k:'cold',   e:'🥶', t:"It's cold.",    my:'sejuk' },
+  { k:'rain',   e:'🌧️', t:"It's raining.", my:'hujan' },
+  { k:'snow',   e:'❄️', t:"It's snowing.", my:'salji' },
+  { k:'cloudy', e:'☁️', t:"It's cloudy.",  my:'berawan' }
+];
+const MOODS = [
+  { e:'😍', d:'You love this idea!',        my:'Kamu suka idea ini.',      ans:'Good idea.' },
+  { e:'🤔', d:'You are not sure.',          my:'Kamu tidak pasti.',        ans:"I'm not sure." },
+  { e:'😕', d:"You don't want to do it.",   my:'Kamu tidak mahu.',         ans:"Sorry, I don't want to." }
+];
+const REPLIES = ['Good idea.', "I'm not sure.", "Sorry, I don't want to."];
+const BAGS = { green:'#3fa34d', black:'#2b2b2b', yellow:'#f2c230', pink:'#f27ab0', orange:'#f28a30', blue:'#3b82d6', purple:'#8a56c9' };
+const BOOKS = { red:'📕', green:'📗', blue:'📘', orange:'📙' };
+const FLAGS = [ { e:'🇲🇾', t:'Malaysia' }, { e:'🇯🇵', t:'Japan' }, { e:'🇦🇺', t:'Australia' } ];
+
+/* ===================== ITEM GENERATORS ===================== */
+function listenWords(n){
+  return shuffle(V).slice(0,n).map(v=>{
+    const o=mkOpts(v,V,4,x=>({e:x.e}));
+    return { say:v.t, opts:o.opts, a:o.a, after:v.t+'.' };
+  });
+}
+function listenWeather(n){
+  return shuffle(W).slice(0,n).map(w=>{
+    const o=mkOpts(w,W,4,x=>({e:x.e}));
+    return { say:w.t, opts:o.opts, a:o.a, after:w.t };
+  });
+}
+function gapItems(n){
+  return shuffle(V).slice(0,n).map(v=>{
+    const o=mkOpts(v.verb,VERBS,3,x=>({t:x}));
+    return { big:v.e, q:`Let's <span class="blank"></span> ${v.rest}.`, opts:o.opts, a:o.a, after:`Let's ${v.t}.` };
+  });
+}
+function replyItems(){
+  const moods=shuffle([0,1,2,0,1,2]);
+  const vs=shuffle(V);
+  return moods.map((m,i)=>{
+    const v=vs[i], md=MOODS[m];
+    return { big:md.e, q:`Your friend says: "Let's ${v.t}."<br><small>${md.d}</small>`, say:`Let's ${v.t}.`,
+      hint:md.my, opts:REPLIES.map(t=>({t})), a:m, after:md.ans };
+  });
+}
+function whereItems(){
+  const out=[];
+  [false,false,false,false,true,true].forEach(plural=>{
+    const bagNames=shuffle(Object.keys(BAGS)).slice(0,3);
+    const bookNames=shuffle(Object.keys(BOOKS)).slice(0,3);
+    const target=Math.floor(Math.random()*3);
+    const opts=bagNames.map((b,i)=>{
+      const bk=BOOKS[bookNames[i]];
+      return { html:`<span class="bag" style="--c:${BAGS[b]}"><span class="bk">${plural?bk+bk:bk}</span></span><span class="lbl">${b} bag</span>` };
+    });
+    const q = plural ? `Where are the ${bookNames[target]} books?` : `Where's the ${bookNames[target]} book?`;
+    const after = plural ? `They're in the ${bagNames[target]} bag.` : `It's in the ${bagNames[target]} bag.`;
+    out.push({ q, say:q, opts, a:target, after });
+  });
+  return out;
+}
+function isAreItems(){
+  return shuffle([
+    { big:'🐚', t:'the shell', a:0 }, { big:'🪁', t:'the kites', a:1 },
+    { big:'🍦', t:'the ice cream', a:0 }, { big:'📚', t:'the books', a:1 },
+    { big:'🦀', t:'the crab', a:0 }, { big:'🐠', t:'the fish', a:1 }
+  ]).map(x=>({ big:x.big, q:`Where <span class="blank"></span> ${x.t}?`, opts:[{t:'is'},{t:'are'}], a:x.a,
+    after:`Where ${x.a===0?'is':'are'} ${x.t}?` }));
+}
+
+/* ===================== GRAMMAR GAME GENERATORS ===================== */
+function docItem(big,good,bads){
+  const list=shuffle([good,...bads]);
+  return { big, q:'Which sentence is correct?', opts:list.map(t=>({t})), a:list.indexOf(good), after:good, hint:'Check the small words.' };
+}
+function doctorLets(n){
+  return shuffle(V).slice(0,n).map(v=>docItem(v.e,`Let's ${v.t}.`,
+    shuffle([`Let's ${v.verb}ing ${v.rest}.`,`Lets ${v.t}.`,`Let ${v.t}.`,`Let's ${v.rest} ${v.verb}.`]).slice(0,2)));
+}
+function doctorCome(){
+  return shuffle([
+    docItem('🇲🇾','Come to Malaysia.',['Coming to Malaysia.','Come Malaysia.']),
+    docItem('🏊','Swim in the sea.',['Swim on the sea.','Swim the sea in.']),
+    docItem('🥵',"It's hot and sunny.",['It hot and sunny.','Is hot and sunny.']),
+    docItem('📷','Take a photo of the mountain.',['Take photo mountain.','Taking a photo of the mountain.']),
+    docItem('🐨','Look at the koala.',['Look the koala at.','Looking at koala.']),
+    docItem('🍦','Eat ice cream on the beach.',['Eat on the beach ice cream.','Eating ice cream on beach.'])
+  ]);
+}
+function doctorWeather(){
+  return shuffle([
+    docItem('🌧️',"It's raining.",['It raining.','Is raining.']),
+    docItem('❄️',"It's cold and snowing.",["It's cold and snow.",'It cold and snowing.']),
+    docItem('☁️',"It's cloudy.",["Its cloudy.","It's cloud."]),
+    docItem('☀️',"It's hot and sunny.",["It's hot and sun.",'It hot sunny.']),
+    docItem('🥶',"It's cold.",['It cold.','Is cold.'])
+  ]);
+}
+function inOnItems(){
+  const mk=(big,q,a,after)=>({ big, q, opts:[{t:'in'},{t:'on'}], a, after, hint:'in = di dalam, on = di atas' });
+  return shuffle([
+    mk('🐚<br>🏰','The shell is <span class="blank"></span> the sandcastle.',1,'The shell is on the sandcastle.'),
+    mk('🪁🪁 → 📦','The kites are <span class="blank"></span> the toy box.',0,'The kites are in the toy box.'),
+    mk('🦀<br>🪨','The crab is <span class="blank"></span> the rock.',1,'The crab is on the rock.'),
+    mk('🐟 → 🪣','The fish is <span class="blank"></span> the bucket.',0,'The fish is in the bucket.'),
+    mk('📚 → 🎒','The books are <span class="blank"></span> the bag.',0,'The books are in the bag.'),
+    mk('🚩<br>🏰','The flag is <span class="blank"></span> the sandcastle.',1,'The flag is on the sandcastle.')
+  ]);
+}
+const QA = [
+  { k:'qa1', l:"Where's the shell?",       t:"It's on the sandcastle." },
+  { k:'qa2', l:'Where are the kites?',     t:"They're in the toy box." },
+  { k:'qa3', l:"Where's the crab?",        t:"It's on the rock." },
+  { k:'qa4', l:'Where are the books?',     t:"They're in the bag." },
+  { k:'qa5', l:"Where's the ice cream?",   t:"It's in the freezer." },
+  { k:'qa6', l:'Where are the fish?',      t:"They're in the bucket." }
+];
+
+/* ===================== WORD BANKS FOR DRILLS ===================== */
+const SP1=[{e:'🐟',w:'fish',my:'ikan'},{e:'🐚',w:'shell',my:'kerang'},{e:'📖',w:'book',my:'buku'},{e:'📷',w:'photo',my:'gambar'},{e:'🎧',w:'music',my:'muzik'},{e:'🎨',w:'paint',my:'lukis'},{e:'🏰',w:'castle',my:'istana'},{e:'🏖️',w:'beach',my:'pantai'},{e:'🌊',w:'sea',my:'laut'},{e:'🪁',w:'kite',my:'layang-layang'}];
+const SP2=[{e:'🐨',w:'koala',my:'koala'},{e:'🇯🇵',w:'Japan',my:'Jepun'},{e:'🇲🇾',w:'Malaysia',my:'Malaysia'},{e:'🪨',w:'rock',my:'batu besar'},{e:'⛰️',w:'hill',my:'bukit'},{e:'🏁',w:'race',my:'perlumbaan'},{e:'👫',w:'friend',my:'kawan'},{e:'🌊',w:'sea',my:'laut'}];
+const SP3=[{e:'☀️',w:'sunny',my:'cerah'},{e:'☁️',w:'cloudy',my:'berawan'},{e:'🌧️',w:'raining',my:'hujan'},{e:'❄️',w:'snowing',my:'salji'},{e:'🥵',w:'hot',my:'panas'},{e:'🥶',w:'cold',my:'sejuk'},{e:'💨',w:'wind',my:'angin'},{e:'⛅',w:'cloud',my:'awan'}];
+const HG1=[{e:'🐚',w:'shell',my:'kerang'},{e:'🏰',w:'castle',my:'istana'},{e:'🎨',w:'paint',my:'lukis'},{e:'🪁',w:'kite',my:'layang-layang'},{e:'🦀',w:'crab',my:'ketam'},{e:'📷',w:'photo',my:'gambar'},{e:'🏖️',w:'beach',my:'pantai'}];
+const HG2=[{e:'🐨',w:'koala',my:'koala'},{e:'🇯🇵',w:'Japan',my:'Jepun'},{e:'🪨',w:'rock',my:'batu besar'},{e:'⛰️',w:'hill',my:'bukit'},{e:'👫',w:'friend',my:'kawan'},{e:'🏁',w:'race',my:'perlumbaan'}];
+const HG3=[{e:'☀️',w:'sunny',my:'cerah'},{e:'☁️',w:'cloudy',my:'berawan'},{e:'❄️',w:'snow',my:'salji'},{e:'🥶',w:'cold',my:'sejuk'},{e:'🌧️',w:'rain',my:'hujan'},{e:'🥵',w:'hot',my:'panas'}];
+const CATCH_VERBS={ goal:'Tap the action words (verbs)!', good:['catch','paint','eat','take','listen','look','read','make'], bad:['shell','bag','kite','beach','sand','crab','sea'] };
+const CATCH_WEATHER={ goal:'Tap the weather words!', good:['sunny','hot','cold','raining','snowing','cloudy'], bad:['shell','book','fish','bag','kite','crab'] };
+
+/* ===================== LESSON PLAN ===================== */
+const READ_INS = 'Tap the card. Look at the picture and read the word.';
+const READ_MY  = 'Tekan kad. Lihat gambar dan baca perkataan.';
+const BUILD_INS = 'Read the Malay. Tap the English words in the right order.';
+const BUILD_MY  = 'Baca ayat Melayu. Tekan perkataan Inggeris mengikut susunan yang betul.';
+const DOC_INS = 'Find the correct sentence. Look at the small words!';
+const DOC_MY  = 'Cari ayat yang betul. Perhatikan perkataan kecil!';
+const MATCH_INS = 'Tap a picture. Then tap the words that match.';
+const MATCH_MY  = 'Tekan gambar. Kemudian tekan perkataan yang sepadan.';
+const SPELL_INS = 'Look at the picture. Tap the letters to spell the word.';
+const SPELL_MY  = 'Lihat gambar. Tekan huruf untuk mengeja perkataan.';
+const HANG_INS = 'Guess the word. Tap a letter. Do not let the waves wash the sandcastle away!';
+const HANG_MY  = 'Teka perkataan. Tekan huruf. Jangan biar ombak hanyutkan istana pasir!';
+const CATCH_MY = 'Tekan ketam yang betul dalam masa 30 saat!';
+const ACT_INS = 'Stand up! Do the action.';
+const ACT_MY  = 'Berdiri! Buat gerakan.';
+const GAP_INS = 'Choose the missing word.';
+const GAP_MY  = 'Pilih perkataan yang hilang.';
+const ISARE_INS = 'Choose is or are.';
+const ISARE_MY  = 'Pilih is atau are.';
+
+const PLAN = {
+  s1: [
+    { id:'1-cards', type:'cards', title:'Meet the beach words', mins:6, ins:READ_INS, my:READ_MY, items:V },
+    { id:'1-match', type:'match', title:'Match the pairs', mins:6, ins:MATCH_INS, my:MATCH_MY, items:V, n:6 },
+    { id:'1-act', type:'act', title:'Beach action break', mins:4, ins:ACT_INS, my:ACT_MY, items:V.map(v=>({e:v.e,t:v.t})) },
+    { id:'1-book106', type:'book', icon:'📖', page:'Page 106', title:'Read the beach words', mins:5,
+      ins:'Open your book at page 106. Look at the 8 pictures and read the words. Cover the words with your hand and try to remember them.',
+      my:'Buka buku muka surat 106. Lihat 8 gambar dan baca perkataan. Tutup perkataan dengan tangan dan cuba ingat.' },
+    { id:'1-spell', type:'spell', title:'Spell it!', mins:8, ins:SPELL_INS, my:SPELL_MY, items:SP1, n:6 },
+    { id:'1-build', type:'build', title:'Build the sentence', mins:8, ins:BUILD_INS, my:BUILD_MY,
+      items:V.map(v=>({e:v.e,t:`Let's ${v.t}.`,my:`Jom ${v.my}.`})) },
+    { id:'1-reply', type:'choice', title:'Good idea or not?', mins:7,
+      ins:'Your friend says "Let\'s ...". Look at the face. Choose your answer.', my:'Kawan kamu cakap "Let\'s ...". Lihat muka. Pilih jawapan kamu.',
+      items:replyItems },
+    { id:'1-gap', type:'choice', title:'Fill the gap', mins:6, ins:GAP_INS, my:GAP_MY, items:()=>gapItems(8) },
+    { id:'1-doctor', type:'choice', title:'Sentence doctor', mins:6, ins:DOC_INS, my:DOC_MY, items:()=>doctorLets(6) },
+    { id:'1-book107', type:'book', icon:'✏️', page:'Page 107', title:'Write in your book', mins:8,
+      ins:'Page 107, activity 1: write paint, take, look or listen in each gap. Then do activity 3: look at the six pictures and write "Let\'s ..." for each one.',
+      my:'Muka surat 107, aktiviti 1: tulis perkataan dalam ruang kosong. Kemudian aktiviti 3: lihat enam gambar dan tulis "Let\'s ...".' },
+    { id:'1-catch', type:'catch', title:'Fun: Crab catch', mins:5, ins:'Tap the crabs that show action words (verbs). Do not tap the other words!', my:CATCH_MY, ...CATCH_VERBS },
+    { id:'1-isare', type:'choice', title:'Is or are?', mins:4, ins:ISARE_INS, my:ISARE_MY, items:isAreItems },
+    { id:'1-inon', type:'choice', title:'In or on?', mins:6, ins:'Look at the picture. Choose in or on.', my:'Lihat gambar. Pilih in atau on.', items:inOnItems },
+    { id:'1-where', type:'choice', title:'Find the book', mins:7, ins:'Read the question. Tap the right bag.', my:'Baca soalan. Tekan beg yang betul.', items:whereItems },
+    { id:'1-qa', type:'match', title:'Question and answer', mins:6, ins:'Tap a question. Then tap its answer.', my:'Tekan soalan. Kemudian tekan jawapannya.', items:QA, n:6 },
+    { id:'1-order', type:'build', title:'Where? Word order', mins:7, ins:BUILD_INS, my:BUILD_MY,
+      items:[
+        { e:'🐚', t:"Where's the shell?", my:'Di mana kerang itu?' },
+        { e:'🪁', t:'Where are the kites?', my:'Di mana layang-layang itu?' },
+        { e:'🏰', t:"It's on the sandcastle.", my:'Ia di atas istana pasir.' },
+        { e:'📦', t:"They're in the toy box.", my:'Mereka di dalam kotak mainan.' },
+        { e:'📘', t:"It's in the green bag.", my:'Ia di dalam beg hijau.' },
+        { e:'📚', t:"They're in the black bag.", my:'Mereka di dalam beg hitam.' }
+      ] },
+    { id:'1-hang', type:'hangman', title:'Fun: Save the sandcastle', mins:5, ins:HANG_INS, my:HANG_MY, words:HG1 },
+    { id:'1-memory', type:'memory', title:'Fun: Memory game', mins:5, ins:'Turn two cards. Find a picture and its words.', my:'Buka dua kad. Cari gambar dan perkataannya.', items:V, n:6 },
+    { id:'1-write', type:'write', title:'Write in your exercise book', mins:10,
+      ins:'Get your exercise book and a pencil. Do all the tasks. Tick each one when you finish.',
+      my:'Ambil buku latihan dan pensel. Buat semua tugasan. Tanda setiap satu bila siap.',
+      tasks:[
+        { e:'📝', t:'Copy the title: <span class="cp">At the beach</span>' },
+        { e:'🎨', t:'Copy these 3 words. Draw a small picture for each one: <span class="cp">catch a fish</span> <span class="cp">eat ice cream</span> <span class="cp">take a photo</span>' },
+        { e:'✏️', t:'Copy these 2 sentences: <span class="cp">Let\'s make a sandcastle.</span> <span class="cp">Let\'s read a book.</span>' }
+      ] }
+  ],
+  s2: [
+    { id:'2-warm', type:'choice', title:'Warm-up: fill the gap', mins:5, ins:GAP_INS, my:GAP_MY, items:()=>gapItems(6) },
+    { id:'2-book110', type:'book', icon:'📚', page:'Pages 110-111', title:'Read the story', mins:14,
+      ins:'Open your book at page 110. Look at the pictures and read the story. Then do page 111, activities 2 and 3.',
+      my:'Buka buku muka surat 110. Lihat gambar dan baca cerita. Kemudian buat aktiviti 2 dan 3 di muka surat 111.' },
+    { id:'2-story', type:'choice', title:'About the story', mins:8,
+      ins:'Think about the story. Choose the best answer.', my:'Fikirkan tentang cerita. Pilih jawapan yang terbaik.',
+      items:()=>[
+        { big:'🏃', q:'Who runs to the top of the hill first?', opts:[{t:'Thunder'},{t:'Flash'}], a:0, after:'Thunder runs first.' },
+        { big:'🪨', q:'What is in the way on the hill?', opts:[{e:'🪨',t:'a big rock'},{e:'🌊',t:'a big wave'},{e:'🐘',t:'an elephant'}], a:0, after:'A big rock is in the way.' },
+        { big:'💪', q:'Who lifts the rock?', opts:[{t:'Thunder'},{t:'Flash'}], a:1, after:'Flash lifts the rock.' },
+        { big:'🤝', q:'At the end, the friends ...', opts:[{t:'race again'},{t:'go home'},{t:'go together'}], a:2, after:'They go together.' },
+        { big:'😟', q:'Your friend is slow. What do you do?', opts:[{t:'Run away'},{t:'Go together'},{t:'Laugh'}], a:1, after:"Let's go together!" },
+        { big:'🪨', q:"Your friend can't lift a heavy bag. What do you say?", opts:[{t:'Ha ha!'},{t:'Let me help!'},{t:'Bye!'}], a:1, after:'Let me help!' }
+      ] },
+    { id:'2-act', type:'act', title:'Story action break', mins:4, ins:ACT_INS, my:ACT_MY,
+      items:[ {e:'🏃',t:'Run'},{e:'🚶',t:'Walk'},{e:'🪨',t:'Push the rock'},{e:'💪',t:'Lift the rock'},{e:'🤝',t:'Hold hands'} ] },
+    { id:'2-read', type:'choice', title:'Read and find the country', mins:10,
+      ins:'Read the card. Choose the country.', my:'Baca kad. Pilih negara.',
+      items:()=>{
+        const cards=[
+          { card:'Come to Malaysia.\nSwim in the sea.\nMake a sandcastle on the beach.\nIt\'s hot and sunny.', a:0, after:'Come to Malaysia.' },
+          { card:'Come to Japan.\nSee the snow.\nTake a photo of the big mountain.\nIt\'s cold.', a:1, after:'Come to Japan.' },
+          { card:'Come to Australia.\nLook at the koala.\nEat ice cream on the beach.', a:2, after:'Come to Australia.' }
+        ];
+        return cards.map(c=>({ card:c.card, q:'Which country?', opts:FLAGS.map(f=>({e:f.e,t:f.t})), a:c.a, after:c.after }));
+      } },
+    { id:'2-spell', type:'spell', title:'Spell it!', mins:6, ins:SPELL_INS, my:SPELL_MY, items:SP2, n:6 },
+    { id:'2-build', type:'build', title:'Build the sentence', mins:7, ins:BUILD_INS, my:BUILD_MY,
+      items:[
+        { e:'🇲🇾', t:'Come to Malaysia.', my:'Datanglah ke Malaysia.' },
+        { e:'🏊', t:'Swim in the sea.', my:'Berenang di laut.' },
+        { e:'📷', t:'Take a photo of the mountain.', my:'Ambil gambar gunung itu.' },
+        { e:'🐨', t:'Look at the koala.', my:'Lihat koala itu.' },
+        { e:'🥵', t:"It's hot and sunny.", my:'Cuaca panas dan cerah.' },
+        { e:'🍦', t:'Eat ice cream on the beach.', my:'Makan aiskrim di pantai.' }
+      ] },
+    { id:'2-doctor', type:'choice', title:'Sentence doctor', mins:6, ins:DOC_INS, my:DOC_MY, items:doctorCome },
+    { id:'2-hang', type:'hangman', title:'Fun: Save the sandcastle', mins:5, ins:HANG_INS, my:HANG_MY, words:HG2 },
+    { id:'2-isare', type:'choice', title:'Is or are?', mins:4, ins:ISARE_INS, my:ISARE_MY, items:()=>isAreItems().slice(0,4) },
+    { id:'2-book112', type:'book', icon:'📘', page:'Page 112', title:'Read and write in your book', mins:8,
+      ins:'Page 112: read about the three countries and write the country under each picture.',
+      my:'Muka surat 112: baca tentang tiga negara dan tulis nama negara di bawah setiap gambar.' },
+    { id:'2-write', type:'write', title:'Write in your exercise book', mins:8,
+      ins:'Get your exercise book and a pencil. Do all the tasks. Tick each one when you finish.',
+      my:'Ambil buku latihan dan pensel. Buat semua tugasan. Tanda setiap satu bila siap.',
+      tasks:[
+        { e:'📝', t:'Copy the title: <span class="cp">Come to Malaysia.</span>' },
+        { e:'✏️', t:'Copy these 2 sentences: <span class="cp">Swim in the sea.</span> <span class="cp">It\'s hot and sunny.</span>' },
+        { e:'🎨', t:'Draw a picture of the beach in Malaysia. Colour it.' }
+      ] }
+  ],
+  s3: [
+    { id:'3-cards', type:'cards', title:'Weather words', mins:5, ins:READ_INS, my:READ_MY, items:W },
+    { id:'3-match', type:'match', title:'Match the weather', mins:5, ins:MATCH_INS, my:MATCH_MY, items:W, n:6 },
+    { id:'3-spell', type:'spell', title:'Spell it!', mins:5, ins:SPELL_INS, my:SPELL_MY, items:SP3, n:5 },
+    { id:'3-map', type:'choice', title:'Weather around the world', mins:6,
+      ins:'Read the sentence. Choose the weather.', my:'Baca ayat. Pilih cuaca.',
+      items:()=>[
+        { card:"It's hot and sunny in Malaysia.", q:'What is the weather in Malaysia?', opts:[{e:'☀️',t:'hot and sunny'},{e:'❄️',t:'cold and snowing'},{e:'🌧️',t:'raining'}], a:0, after:"It's hot and sunny." },
+        { card:"It's cold and snowing in Canada.", q:'What is the weather in Canada?', opts:[{e:'🥵',t:'hot'},{e:'❄️',t:'cold and snowing'},{e:'🌧️',t:'raining'}], a:1, after:"It's cold and snowing." },
+        { card:"It's raining in England.", q:'What is the weather in England?', opts:[{e:'🌧️',t:'raining'},{e:'☀️',t:'sunny'},{e:'🥶',t:'cold'}], a:0, after:"It's raining." },
+        { card:"It's cloudy in Australia.", q:'What is the weather in Australia?', opts:[{e:'☀️',t:'sunny'},{e:'☁️',t:'cloudy'},{e:'❄️',t:'snowing'}], a:1, after:"It's cloudy." }
+      ] },
+    { id:'3-postcards', type:'choice', title:'Read the postcards', mins:6,
+      ins:'Read the postcard. Choose the answer.', my:'Baca poskad. Pilih jawapan.',
+      items:()=>[
+        { card:'Dear Mum,\nI am at the beach. It\'s hot and sunny.\nI eat ice cream. Bye, Aina', q:'Where is Aina?', opts:[{e:'🏖️',t:'at the beach'},{e:'⛷️',t:'in the snow'},{e:'🏔️',t:'on a mountain'}], a:0, after:'Aina is at the beach.' },
+        { card:'Dear Ben,\nIt\'s snowing here. It\'s very cold.\nI like it! Bye, Kai', q:'What is the weather?', opts:[{e:'🌧️',t:'raining'},{e:'☀️',t:'sunny'},{e:'❄️',t:'snowing'}], a:2, after:"It's snowing and very cold." },
+        { card:'Dear Siti,\nIt\'s raining here, but it\'s beautiful.\nSee you soon. Bye, Hana', q:'What is the weather?', opts:[{e:'🌧️',t:'raining'},{e:'🥵',t:'hot'},{e:'☁️',t:'cloudy'}], a:0, after:"It's raining." }
+      ] },
+    { id:'3-act', type:'act', title:'Weather action break', mins:3, ins:ACT_INS, my:ACT_MY,
+      items:[ {e:'🥵',t:"It's hot! Fan yourself"},{e:'🥶',t:"It's cold! Shiver"},{e:'🌧️',t:"It's raining! Open your umbrella"},{e:'☀️',t:"It's sunny! Put on your hat"},{e:'❄️',t:"It's snowing! Catch a snowflake"} ] },
+    { id:'3-catch', type:'catch', title:'Fun: Crab catch', mins:4, ins:'Tap the crabs that show weather words. Do not tap the other words!', my:CATCH_MY, ...CATCH_WEATHER },
+    { id:'3-doctor', type:'choice', title:'Sentence doctor', mins:5, ins:DOC_INS, my:DOC_MY, items:doctorWeather },
+    { id:'3-book116', type:'book', icon:'🎭', page:'Page 116', title:'Read and number', mins:5,
+      ins:'Page 116, activity 2: read the six sentences and number them in the order of the story.',
+      my:'Muka surat 116, aktiviti 2: baca enam ayat dan nombor mengikut susunan cerita.' },
+    { id:'3-quiz', type:'choice', title:'Quiz time', mins:8,
+      ins:'Choose the best answer.', my:'Pilih jawapan yang terbaik.',
+      items:()=>shuffle([
+        { big:'🏰', q:`Let's <span class="blank"></span> a sandcastle.`, opts:[{t:'eat'},{t:'take'},{t:'make'}], a:2, after:"Let's make a sandcastle." },
+        { big:'🎧', q:`Let's <span class="blank"></span> to music.`, opts:[{t:'listen'},{t:'look'},{t:'take'}], a:0, after:"Let's listen to music." },
+        { big:'🪁', q:`Where <span class="blank"></span> the kites?`, opts:[{t:'is'},{t:'are'}], a:1, after:'Where are the kites?' },
+        { big:'📖', q:`Your friend says: "Let's read a book." You don't want to.`, opts:REPLIES.map(t=>({t})), a:2, after:"Sorry, I don't want to." },
+        { big:'❄️', q:"What's the weather like?", opts:[{t:"It's snowing."},{t:"It's hot."},{t:"It's cloudy."}], a:0, after:"It's snowing." },
+        { big:'🐨', q:'Where do you find koalas?', opts:FLAGS.map(f=>({e:f.e,t:f.t})), a:2, after:'You find koalas in Australia.' },
+        { big:'🐟 → 🪣', q:`The fish is <span class="blank"></span> the bucket.`, opts:[{t:'in'},{t:'on'}], a:0, after:'The fish is in the bucket.' },
+        docItem('🇲🇾','Come to Malaysia.',['Coming to Malaysia.','Come Malaysia.'])
+      ]) },
+    { id:'3-write', type:'write', title:'Write in your exercise book', mins:8,
+      ins:'Get your exercise book and a pencil. Do all the tasks. Tick each one when you finish.',
+      my:'Ambil buku latihan dan pensel. Buat semua tugasan. Tanda setiap satu bila siap.',
+      tasks:[
+        { e:'📝', t:'Copy the title: <span class="cp">My weather diary</span>' },
+        { e:'🌦️', t:'Draw 3 boxes. Draw a weather picture in each box.' },
+        { e:'✏️', t:'Under the pictures, copy these: <span class="cp">It\'s sunny.</span> <span class="cp">It\'s raining.</span> <span class="cp">It\'s cloudy.</span>' }
+      ] }
+  ]
+};
+
+/* Extra games: open any time, not tied to a class day */
+const BONUS = [
+  { id:'b-catch1', type:'catch', icon:'🦀', title:'Crab catch: action words', mins:2, ins:'Tap the crabs that show action words (verbs). Do not tap the other words!', my:CATCH_MY, ...CATCH_VERBS },
+  { id:'b-catch2', type:'catch', icon:'🌦️', title:'Crab catch: weather words', mins:2, ins:'Tap the crabs that show weather words. Do not tap the other words!', my:CATCH_MY, ...CATCH_WEATHER },
+  { id:'b-hang1', type:'hangman', icon:'🏰', title:'Save the sandcastle', mins:5, ins:HANG_INS, my:HANG_MY, words:HG1.concat(HG2,HG3) },
+  { id:'b-spell', type:'spell', icon:'🔤', title:'Spell it!', mins:5, ins:SPELL_INS, my:SPELL_MY, items:SP1.concat(SP2,SP3), n:8 },
+  { id:'b-memory', type:'memory', icon:'🃏', title:'Memory game', mins:4, ins:'Turn two cards. Find a picture and its words.', my:'Buka dua kad. Cari gambar dan perkataannya.', items:V.concat(W), n:6 }
+];
+/* ===================== STATE ===================== */
+const app = document.getElementById('app');
+const isTeacher = () => location.hash === '#teacher';
+function loadState(){
+  const base={ name:'', done:{}, stars:{}, mute:false };
+  try{ return Object.assign(base, JSON.parse(localStorage.getItem('unit9')||'{}')); }catch(e){ return base; }
+}
+let S = loadState();
+function save(){ try{ localStorage.setItem('unit9', JSON.stringify(S)); }catch(e){} }
+function esc(s){ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function totalStars(){ return Object.values(S.stars).reduce((a,b)=>a+b,0); }
+function isOpen(s){ return isTeacher() || Date.now() >= Date.parse(s.opens); }
+function fmtOpen(s){
+  const d=new Date(s.opens), ms=d-Date.now();
+  if(ms>0 && ms<864e5){ return `Opens in ${Math.floor(ms/36e5)} h ${Math.floor(ms%36e5/6e4)} min`; }
+  return 'Opens '+d.toLocaleString('en-GB',{weekday:'long',day:'numeric',month:'short',hour:'numeric',minute:'2-digit',hour12:true,timeZone:'Asia/Kuala_Lumpur'});
+}
+let VIEW = { v:'home' };
+
+/* ===================== SOUND ===================== */
+let AC;
+function beep(ok){
+  if(S.mute) return;
+  try{
+    AC = AC || new (window.AudioContext||window.webkitAudioContext)();
+    const o=AC.createOscillator(), g=AC.createGain(), t=AC.currentTime;
+    o.connect(g); g.connect(AC.destination);
+    if(ok){ o.frequency.setValueAtTime(660,t); o.frequency.setValueAtTime(880,t+.1); }
+    else { o.type='square'; o.frequency.setValueAtTime(220,t); o.frequency.setValueAtTime(160,t+.12); }
+    g.gain.setValueAtTime(.12,t); g.gain.exponentialRampToValueAtTime(.001,t+.3);
+    o.start(t); o.stop(t+.3);
+  }catch(e){}
+}
+let firstTTS = false;
+function tts(text, queue){
+  if(S.mute || !text || !('speechSynthesis' in window)) return;
+  try{
+    if(!queue) speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang='en-GB'; u.rate=.8; u.pitch=1.1;
+    const vs=speechSynthesis.getVoices().filter(x=>/^en/i.test(x.lang));
+    const p=vs.find(x=>/en[-_]GB/i.test(x.lang))||vs[0];
+    if(p) u.voice=p;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+function ttsFirst(text){ tts(text, firstTTS); firstTTS=false; }
+
+/* ===================== SHELL ===================== */
+function barHtml(back){
+  return `<header class="bar"><div class="barin">${back?'<button class="icon" id="back" aria-label="Back to lessons">←</button>':''}<span class="logo">Unit 9 · At the beach</span><span class="grow"></span><span class="chip">⭐ <span id="starn">${totalStars()}</span></span><button class="icon" id="snd" aria-label="Sound on or off">${S.mute?'🔇':'🔊'}</button></div></header>`;
+}
+function bindBar(onBack){
+  const b=document.getElementById('back'); if(b) b.onclick=onBack;
+  document.getElementById('snd').onclick=e=>{
+    S.mute=!S.mute; save(); e.currentTarget.textContent=S.mute?'🔇':'🔊';
+    if(S.mute && 'speechSynthesis' in window) speechSynthesis.cancel();
+  };
+}
+
+const ART = {
+  s1:`<svg class="art" viewBox="0 0 120 120" role="img" aria-label="A sandcastle on the beach"><rect width="120" height="120" fill="#8fd3ee"/><circle cx="92" cy="28" r="14" fill="#ffc83d"/><rect y="62" width="120" height="24" fill="#1aa2b0"/><path d="M0 68q15-8 30 0t30 0 30 0 30 0v6H0z" fill="#d6f0ee" opacity=".7"/><rect y="84" width="120" height="36" fill="#f6d58e"/><rect x="34" y="68" width="52" height="30" rx="2" fill="#e8b765"/><rect x="30" y="58" width="14" height="14" fill="#e8b765"/><rect x="53" y="54" width="14" height="18" fill="#e8b765"/><rect x="76" y="58" width="14" height="14" fill="#e8b765"/><path d="M60 54V40" stroke="#7a4b1a" stroke-width="2"/><path d="M60 40l12 4-12 4z" fill="#ff6a4a"/><rect x="52" y="80" width="16" height="18" rx="8" fill="#b98a3d"/><ellipse cx="22" cy="104" rx="9" ry="6" fill="#ff8aa8"/></svg>`,
+  s2:`<svg class="art" viewBox="0 0 120 120" role="img" aria-label="A hill with a big rock"><rect width="120" height="120" fill="#a7e0f5"/><circle cx="24" cy="26" r="10" fill="#ffc83d"/><path d="M0 120V84Q40 34 80 54T120 42V120z" fill="#5cb85c"/><path d="M0 120V98Q50 72 120 90V120z" fill="#3f9b4a"/><circle cx="68" cy="64" r="14" fill="#8b949a"/><circle cx="63" cy="59" r="4" fill="#a7afb4"/><path d="M104 42V26" stroke="#7a4b1a" stroke-width="2"/><path d="M104 26l12 4-12 4z" fill="#ff6a4a"/></svg>`,
+  s3:`<svg class="art" viewBox="0 0 120 120" role="img" aria-label="Sun, cloud and rain"><rect width="120" height="120" fill="#9ad7f2"/><circle cx="44" cy="40" r="18" fill="#ffc83d"/><g stroke="#ffc83d" stroke-width="4" stroke-linecap="round"><path d="M44 10v6M14 40h6M23 19l4 4M65 19l-4 4M23 61l4-4"/></g><ellipse cx="74" cy="58" rx="28" ry="14" fill="#fff"/><circle cx="60" cy="52" r="13" fill="#fff"/><circle cx="84" cy="50" r="13" fill="#fff"/><g stroke="#2f7fd0" stroke-width="4" stroke-linecap="round"><path d="M58 80l-4 10M74 80l-4 10M90 80l-4 10M66 96l-4 10M82 96l-4 10"/></g></svg>`
+};
+function dur(m){ const h=Math.floor(m/60), r=m%60; return [h?h+(h>1?' hours':' hour'):'', r?r+' min':''].filter(Boolean).join(' '); }
+function timeOf(s){ return new Date(s.opens).toLocaleTimeString('en-GB',{hour:'numeric',minute:'2-digit',hour12:true,timeZone:'Asia/Kuala_Lumpur'}); }
+
+/* ===================== HOME ===================== */
+function lessonsHtml(){
+  const items=SESSIONS.map((s,si)=>{
+    const list=PLAN[s.id], done=list.filter(x=>S.done[x.id]).length, open=isOpen(s), all=done===list.length;
+    const cls=!open?'locked':all?'done':'';
+    const pill=!open?`🔒 ${fmtOpen(s)}`:all?'✅ All done':done?`▶ ${done} of ${list.length} done`:'▶ Open now';
+    return `<li class="ses ${cls}"><div class="arts">${ART[s.id]}<span class="badge" aria-hidden="true">${!open?'🔒':all?'✅':''}</span></div><div><h3>${s.title}</h3><p class="meta">${s.long} · ${timeOf(s)} · ${dur(s.mins)}</p><p class="meta">${s.pages} · ${list.length} activities</p><span class="pill">${pill}</span>${open?`<div class="prog"><i style="width:${Math.round(100*done/list.length)}%"></i></div><div style="margin-top:12px"><button class="btn alt sm" data-s="${si}">${done&&!all?'Continue':all?'Play again':'Start'} ▶</button></div>`:''}</div></li>`;
+  }).join('');
+  return `${isTeacher()?'<div class="banner">Teacher preview: every lesson is open. <button class="btn sm ghost" id="reset" style="margin-left:6px">Reset progress</button></div>':''}<h2 class="sec">Your lessons this week</h2><ol class="sessions">${items}</ol><p class="note">Each lesson opens on its class day. Do the activities in order. Take a short rest when you see the action break!</p><h2 class="sec" style="margin-top:28px">Extra games</h2><p class="meta" style="margin-bottom:12px">Play any time. Great for a short break!</p><div class="bonus">${BONUS.map((b,k)=>`<button class="bn" data-b="${k}"><span class="oe">${b.icon}</span><span>${b.title}</span></button>`).join('')}</div><p class="note"><button class="btn sm ghost" id="chname">Not ${esc(S.name)}? Change name</button></p>`;
+}
+function nameHtml(){
+  return `<h2 class="sec">Let's start!</h2><div class="namebox"><label for="nameIn" class="my">Type your first name</label><input id="nameIn" maxlength="20" autocomplete="off" placeholder="My name is ..."><button class="btn" id="nameGo">OK ▶</button></div>`;
+}
+function renderHome(){
+  VIEW={ v:'home' };
+  const named=!!S.name;
+  app.innerHTML = barHtml(false) +
+    `<section class="hero"><div class="herobox"><p class="eyebrow">Super Minds 1 · Year 2</p><h1>At the beach</h1><div class="mascot"><span class="crab" aria-hidden="true">🦀</span><p class="bubble">${named?`Hello, ${esc(S.name)}! I'm Sandy. Let's learn English at the beach!`:`Hello! I'm Sandy the crab. What's your name?`}</p></div></div></section>` +
+    `<main class="wrap">${named?lessonsHtml():nameHtml()}</main>`;
+  bindBar();
+  if(named){
+    app.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>openSession(+b.dataset.s));
+    app.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>renderBonus(+b.dataset.b));
+    document.getElementById('chname').onclick=()=>{ S.name=''; save(); renderHome(); };
+    const r=document.getElementById('reset'); if(r) r.onclick=()=>{ S.done={}; S.stars={}; save(); renderHome(); };
+  }else{
+    const go=()=>{ const v=document.getElementById('nameIn').value.trim(); if(!v) return; S.name=v; save(); renderHome(); tts(`Hello, ${v}! Let's learn English.`); };
+    document.getElementById('nameGo').onclick=go;
+    document.getElementById('nameIn').addEventListener('keydown',e=>{ if(e.key==='Enter') go(); });
+  }
+}
+
+/* ===================== SESSION ===================== */
+function openSession(si){
+  const list=PLAN[SESSIONS[si].id];
+  let i=list.findIndex(x=>!S.done[x.id]); if(i<0) i=0;
+  VIEW={ v:'ses', si, i };
+  renderSession(i);
+}
+function renderBonus(k){
+  VIEW={ v:'bonus', k };
+  app.innerHTML=barHtml(true)+`<main class="wrap"><p class="eyebrow">Extra game</p><section class="card" id="stage"></section></main>`;
+  bindBar(renderHome);
+  runStation(BONUS[k],0,[BONUS[k]]);
+  window.scrollTo(0,0);
+}
+function stUnlocked(list,k){ return k===0 || isTeacher() || !!S.done[list[k-1].id]; }
+function renderSession(i){
+  const ses=SESSIONS[VIEW.si], list=PLAN[ses.id];
+  VIEW.i=i;
+  app.innerHTML = barHtml(true) +
+    `<main class="wrap"><p class="eyebrow">${ses.long} · ${ses.pages}</p><h2 class="sec">${ses.title}</h2>` +
+    `<div class="dots">${list.map((s,k)=>`<button class="dot ${S.done[s.id]&&k!==i?'ok':''} ${k===i?'cur':''}" data-k="${k}" ${stUnlocked(list,k)?'':'disabled'} aria-label="Activity ${k+1}: ${esc(s.title)}">${S.done[s.id]&&k!==i?'✓':k+1}</button>`).join('')}</div>` +
+    `<section class="card" id="stage"></section></main>`;
+  bindBar(renderHome);
+  app.querySelectorAll('.dot').forEach(b=>b.onclick=()=>renderSession(+b.dataset.k));
+  runStation(list[i], i, list);
+  window.scrollTo(0,0);
+}
+function runStation(st,i,list){
+  const host=document.getElementById('stage');
+  host.innerHTML=`<div class="sthead"><h2>${st.title}</h2><span class="mins">⏱ about ${st.mins} min</span></div><p class="ins">${st.ins}</p><p class="my">${st.my}</p><button class="btn sm ghost" id="rin" style="margin-top:10px">🔊 Hear the instructions</button><hr class="rule"><div class="play" id="play"></div>`;
+  document.getElementById('rin').onclick=()=>tts(st.ins);
+  const play=document.getElementById('play');
+  tts(st.ins); firstTTS=true;
+  const finish=n=>{
+    n=Math.max(1,Math.min(3,n));
+    const bonus=VIEW.v==='bonus';
+    if(!bonus){
+      S.done[st.id]=true; S.stars[st.id]=Math.max(S.stars[st.id]||0,n); save();
+      const sn=document.getElementById('starn'); if(sn) sn.textContent=totalStars();
+    }
+    const last=i===list.length-1;
+    beep(true);
+    play.innerHTML=`<div class="donecard"><div class="stars" role="img" aria-label="${n} stars">${'<span>⭐</span>'.repeat(n)}</div><h2>${['','Good try!','Well done!','Super!'][n]}</h2>${bonus?'<button class="btn" id="again">Play again ▶</button><button class="btn ghost" id="nxt">Back to lessons</button>':`<button class="btn" id="nxt">${last?'Finish the lesson 🎉':'Next activity ▶'}</button>`}</div>`;
+    tts(['','Good try!','Well done!','Super!'][n]);
+    const again=document.getElementById('again'); if(again) again.onclick=()=>renderBonus(VIEW.k);
+    document.getElementById('nxt').onclick=()=>bonus?renderHome():last?renderComplete():renderSession(i+1);
+  };
+  TYPES[st.type](play,st,finish);
+}
+function renderComplete(){
+  const ses=SESSIONS[VIEW.si], list=PLAN[ses.id];
+  const got=list.reduce((a,s)=>a+(S.stars[s.id]||0),0);
+  const dt=new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',timeZone:'Asia/Kuala_Lumpur'});
+  app.innerHTML=barHtml(true)+`<main class="wrap"><div class="cert"><div class="big" aria-hidden="true">🏖️</div><p class="eyebrow">${ses.long} lesson complete</p><h2>${esc(S.name)}</h2><p>finished <b>${ses.title}</b></p><div class="stars" style="font-size:1.8rem">⭐ ${got} / ${list.length*3}</div><p class="my">${dt}</p></div><p class="note center">Take a screenshot and send it to your teacher on WhatsApp.</p><div class="center" style="margin-top:16px"><button class="btn" id="home">Back to lessons</button></div></main>`;
+  bindBar(renderHome);
+  document.getElementById('home').onclick=renderHome;
+  tts(`Well done, ${S.name}! You finished the lesson.`);
+}
+
+/* ===================== ACTIVITY TYPES ===================== */
+const TYPES = {};
+
+TYPES.cards=function(host,st,fin){
+  let i=0; const n=st.items.length;
+  const show=()=>{
+    const it=st.items[i];
+    host.innerHTML=`<div class="fc"><div class="big" aria-hidden="true">${it.e}</div><div class="phrase">${it.t}</div>${it.my?`<p class="my">${it.my}</p>`:''}<button class="btn alt" id="hear">🔊 Listen again</button></div><div class="nav"><span>${i+1} / ${n}</span><button class="btn" id="nx">${i<n-1?'Next ▶':'Done ✔'}</button></div>`;
+    ttsFirst(it.t);
+    host.querySelector('#hear').onclick=()=>tts(it.t);
+    host.querySelector('#nx').onclick=()=>{ if(i<n-1){ i++; show(); } else fin(3); };
+  };
+  show();
+};
+
+TYPES.choice=function(host,st,fin){
+  const items=typeof st.items==='function'?st.items():st.items;
+  let i=0, firsts=0;
+  const show=()=>{
+    const it=items[i]; let wrong=0, locked=false;
+    const listenOnly=it.say && !it.big && !it.q;
+    host.innerHTML=`<p class="my center">${i+1} / ${items.length}</p>`+
+      (it.card?`<div class="postcard">${esc(it.card)}</div>`:'')+
+      (it.big?`<div class="big" aria-hidden="true">${it.big}</div>`:'')+
+      (it.q?`<p class="qt">${it.q}</p>`:'')+
+      (it.say?`<div class="center"><button class="${listenOnly?'hearbig':'btn alt sm'}" id="hear" aria-label="Listen">${listenOnly?'🔊':'🔊 Listen'}</button></div>`:'')+
+      `<div class="opts">${it.opts.map((o,k)=>`<button class="opt" data-k="${k}">${o.html||((o.e?`<span class="oe">${o.e}</span>`:'')+(o.t?`<span>${o.t}</span>`:''))}</button>`).join('')}</div>`+
+      `<p class="fb" aria-live="polite"></p><div class="center"><button class="btn" id="nx" hidden>${i<items.length-1?'Next ▶':'Done ✔'}</button></div>`;
+    const fb=host.querySelector('.fb'), nx=host.querySelector('#nx'), btns=[...host.querySelectorAll('.opt')];
+    const hear=host.querySelector('#hear'); if(hear) hear.onclick=()=>tts(it.say);
+    if(it.say) ttsFirst(it.say);
+    nx.onclick=()=>{ if(i<items.length-1){ i++; show(); } else fin(Math.round(3*firsts/items.length)); };
+    btns.forEach((b,k)=>b.onclick=()=>{
+      if(locked) return;
+      if(k===it.a){
+        locked=true; b.classList.add('ok'); btns.forEach(x=>x.disabled=true); beep(true);
+        if(wrong===0) firsts++;
+        fb.className='fb ok'; fb.textContent='✔ '+(it.after||'Great!'); tts(it.after||'');
+        nx.hidden=false; nx.focus();
+      }else{
+        wrong++; beep(false); b.classList.add('bad'); b.disabled=true;
+        if(wrong===1){
+          fb.className='fb bad'; fb.textContent=it.hint?('Try again! '+it.hint):(it.say?'Try again! Listen again 🔊':'Try again! Think about it.');
+          if(it.say) setTimeout(()=>tts(it.say),450);
+        }else{
+          locked=true; btns.forEach(x=>x.disabled=true); btns[it.a].classList.add('reveal');
+          fb.className='fb bad'; fb.textContent='This is the answer: '+(it.after||'');
+          tts(it.after||''); nx.hidden=false;
+        }
+      }
+    });
+  };
+  show();
+};
+
+TYPES.match=function(host,st,fin){
+  const pairs=shuffle(st.items).slice(0,st.n||6);
+  let sel=null, got=0, miss=0;
+  const L=shuffle(pairs), R=shuffle(pairs);
+  host.innerHTML=`<div class="two"><div class="col">${L.map(p=>`<button class="mc" data-id="${p.k}" data-side="L">${p.e?`<span class="oe">${p.e}</span>`:p.l}</button>`).join('')}</div><div class="col">${R.map(p=>`<button class="mc" data-id="${p.k}" data-side="R">${p.t}</button>`).join('')}</div></div><p class="fb" aria-live="polite"></p>`;
+  const fb=host.querySelector('.fb');
+  host.querySelectorAll('.mc').forEach(b=>b.onclick=()=>{
+    if(b.classList.contains('got')) return;
+    if(!sel || sel.dataset.side===b.dataset.side){
+      if(sel) sel.classList.remove('sel');
+      sel=b; b.classList.add('sel');
+      if(b.dataset.side==='R') tts(b.textContent);
+      return;
+    }
+    if(sel.dataset.id===b.dataset.id){
+      [sel,b].forEach(x=>{ x.classList.remove('sel'); x.classList.add('got'); });
+      tts(pairs.find(q=>q.k===b.dataset.id).t); beep(true); sel=null; got++;
+      if(got===pairs.length){ fb.className='fb ok'; fb.textContent='All matched! 🎉'; setTimeout(()=>fin(miss===0?3:miss<4?2:1),1000); }
+    }else{
+      miss++; beep(false);
+      const a=sel, c=b; a.classList.add('bad'); c.classList.add('bad');
+      setTimeout(()=>{ a.classList.remove('bad','sel'); c.classList.remove('bad'); },450);
+      sel=null;
+    }
+  });
+};
+
+TYPES.memory=function(host,st,fin){
+  const pairs=shuffle(st.items).slice(0,st.n||6);
+  const cards=shuffle(pairs.flatMap(p=>[{id:p.k,face:`<span class="oe">${p.e}</span>`,txt:p.t},{id:p.k,face:p.t,txt:p.t}]));
+  host.innerHTML=`<div class="mem">${cards.map((c,k)=>`<button class="mc down" data-i="${k}" aria-label="Card ${k+1}">?</button>`).join('')}</div><p class="fb" aria-live="polite"></p>`;
+  const btns=[...host.querySelectorAll('.mc')], fb=host.querySelector('.fb');
+  let first=null, busy=false, tries=0, got=0;
+  btns.forEach((b,k)=>b.onclick=()=>{
+    if(busy || !b.classList.contains('down')) return;
+    b.classList.remove('down'); b.innerHTML=cards[k].face; tts(cards[k].txt);
+    if(first===null){ first=k; return; }
+    tries++;
+    if(cards[first].id===cards[k].id){
+      btns[first].classList.add('got'); b.classList.add('got'); beep(true); first=null; got++;
+      if(got===pairs.length){ fb.className='fb ok'; fb.textContent='You found them all! 🎉'; setTimeout(()=>fin(tries<=9?3:tries<=14?2:1),1000); }
+    }else{
+      busy=true; beep(false); const f=first; first=null;
+      setTimeout(()=>{ [btns[f],b].forEach(x=>{ x.classList.add('down'); x.textContent='?'; }); busy=false; },900);
+    }
+  });
+};
+
+TYPES.build=function(host,st,fin){
+  const items=shuffle(st.items).slice(0,6);
+  let i=0, firsts=0;
+  const show=()=>{
+    const it=items[i]; let tries=0, done=false;
+    const words=it.t.split(' ');
+    let order=shuffle(words.map((w,k)=>({w,k})));
+    if(words.length>2 && order.every((o,k)=>o.k===k)) order=order.slice().reverse();
+    let picked=[];
+    host.innerHTML=`<p class="my center">${i+1} / ${items.length}</p><div class="big" aria-hidden="true">${it.e}</div>${it.my?`<p class="qt">${it.my}</p>`:''}<div class="center"><button class="btn alt sm" id="hear">🔊 Listen</button></div><div class="slot" id="slot" aria-label="Your sentence"></div><div class="bank" id="bank"></div><p class="fb" aria-live="polite"></p><div class="center"><button class="btn" id="nx" hidden>${i<items.length-1?'Next ▶':'Done ✔'}</button></div>`;
+    const slot=host.querySelector('#slot'), bank=host.querySelector('#bank'), fb=host.querySelector('.fb'), nx=host.querySelector('#nx');
+    host.querySelector('#hear').onclick=()=>tts(it.t);
+    if(!it.my) ttsFirst(it.t);
+    nx.onclick=()=>{ if(i<items.length-1){ i++; show(); } else fin(Math.round(3*firsts/items.length)); };
+    const draw=()=>{
+      slot.innerHTML=''; bank.innerHTML='';
+      picked.forEach(k=>{ const b=document.createElement('button'); b.className='chipw'; b.textContent=words[k]; b.onclick=()=>{ if(done) return; picked=picked.filter(x=>x!==k); draw(); }; slot.appendChild(b); });
+      order.forEach(o=>{ const b=document.createElement('button'); b.className='chipw'+(picked.includes(o.k)?' used':''); b.textContent=o.w;
+        b.onclick=()=>{
+          if(done||picked.includes(o.k)) return;
+          picked.push(o.k); draw();
+          if(picked.length===words.length){
+            if(picked.map(k=>words[k]).join(' ')===it.t){
+              done=true; slot.classList.add('ok'); beep(true); if(tries===0) firsts++;
+              fb.className='fb ok'; fb.textContent='✔ '+it.t; tts(it.t); nx.hidden=false; nx.focus();
+            }else{
+              tries++; beep(false); slot.classList.add('bad'); fb.className='fb bad'; fb.textContent='Try again!';
+              setTimeout(()=>{ slot.classList.remove('bad'); picked=[]; draw(); },700);
+            }
+          }
+        };
+        bank.appendChild(b); });
+    };
+    draw();
+  };
+  show();
+};
+
+TYPES.book=function(host,st,fin){
+  host.innerHTML=`<div class="fc"><div class="big" aria-hidden="true">${st.icon}</div><p class="eyebrow">${st.page}</p><p class="my">Do this activity by yourself. You can do it!</p><button class="btn" id="did">I did it ✅</button></div>`;
+  host.querySelector('#did').onclick=()=>fin(3);
+};
+
+TYPES.act=function(host,st,fin){
+  const items=st.items, n=items.length;
+  host.innerHTML=`<div class="fc"><div class="big" aria-hidden="true">🕺</div><button class="btn" id="go">Start! ▶</button></div>`;
+  const run=k=>{
+    if(!document.body.contains(host)) return;
+    if(k>=n){ fin(3); return; }
+    const it=items[k];
+    host.innerHTML=`<div class="stage" aria-hidden="true">${it.e}</div><p class="phrase">${it.t}!</p><div class="timer"><i id="tb"></i></div><p class="my center">${k+1} / ${n}</p>`;
+    tts(it.t+'!');
+    const tb=host.querySelector('#tb'); void tb.offsetWidth; tb.style.transition='width 5s linear'; tb.style.width='100%';
+    setTimeout(()=>run(k+1),5000);
+  };
+  host.querySelector('#go').onclick=()=>run(0);
+};
+
+TYPES.say=function(host,st,fin){
+  const items=st.items; let i=0;
+  const show=()=>{
+    const it=items[i];
+    host.innerHTML=`<p class="my center">${i+1} / ${items.length}</p><div class="big" aria-hidden="true">${it.e}</div><p class="phrase">${it.t}</p><p class="my center">${it.my||''}</p><div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:16px"><button class="btn alt" id="hear">🔊 Listen</button><button class="btn" id="said">I said it ✔</button></div>`;
+    ttsFirst(it.t);
+    host.querySelector('#hear').onclick=()=>tts(it.t);
+    host.querySelector('#said').onclick=()=>{ beep(true); if(i<items.length-1){ i++; show(); } else fin(3); };
+  };
+  show();
+};
+
+TYPES.write=function(host,st,fin){
+  const n=st.tasks.length, on=new Set();
+  host.innerHTML=`<div class="center big" aria-hidden="true">📒</div><p class="note center" style="margin-top:0">When you finish, take a photo of your page and send it to your teacher on WhatsApp.</p><ul class="tasks">${st.tasks.map((t,k)=>`<li><button class="task" data-k="${k}" aria-pressed="false"><span class="ck">✔</span><span><b>${t.e}</b> ${t.t}</span></button></li>`).join('')}</ul><div class="center"><button class="btn" id="did" disabled>I wrote it in my book ✅</button></div>`;
+  const did=host.querySelector('#did');
+  host.querySelectorAll('.task').forEach(b=>b.onclick=()=>{
+    const k=+b.dataset.k;
+    if(on.has(k)){ on.delete(k); } else { on.add(k); beep(true); }
+    b.classList.toggle('on',on.has(k)); b.setAttribute('aria-pressed',on.has(k));
+    did.disabled = on.size<n;
+  });
+  did.onclick=()=>fin(3);
+};
+
+TYPES.spell=function(host,st,fin){
+  const items=shuffle(st.items).slice(0,st.n||6);
+  let i=0, wrongs=0;
+  const show=()=>{
+    const it=items[i], letters=[...it.w], low=it.w.toLowerCase();
+    let pos=0;
+    const extra=shuffle('abcdefghijklmnoprstuwy'.split('').filter(c=>!low.includes(c))).slice(0,3);
+    const bank=shuffle(letters.map(c=>({c})).concat(extra.map(c=>({c}))));
+    host.innerHTML=`<p class="my center">${i+1} / ${items.length}</p><div class="big" aria-hidden="true">${it.e}</div><p class="my center">${it.my}</p><div class="word">${letters.map(()=>'<span class="ltr"></span>').join('')}</div><div class="bank">${bank.map(b=>`<button class="chipw">${b.c}</button>`).join('')}</div><p class="fb" aria-live="polite"></p><div class="center"><button class="btn" id="nx" hidden>${i<items.length-1?'Next ▶':'Done ✔'}</button></div>`;
+    const slots=[...host.querySelectorAll('.ltr')], tiles=[...host.querySelectorAll('.bank .chipw')], fb=host.querySelector('.fb'), nx=host.querySelector('#nx');
+    nx.onclick=()=>{ if(i<items.length-1){ i++; show(); } else fin(wrongs<=2?3:wrongs<=6?2:1); };
+    tiles.forEach((t,k)=>t.onclick=()=>{
+      if(pos>=letters.length || t.classList.contains('used')) return;
+      if(bank[k].c.toLowerCase()===letters[pos].toLowerCase()){
+        slots[pos].textContent=letters[pos]; slots[pos].classList.add('on'); t.classList.add('used'); pos++; beep(true);
+        if(pos===letters.length){ fb.className='fb ok'; fb.textContent='✔ '+it.w; tts(it.w); nx.hidden=false; nx.focus(); }
+      }else{
+        wrongs++; beep(false); t.classList.remove('shk'); void t.offsetWidth; t.classList.add('shk');
+      }
+    });
+  };
+  show();
+};
+
+TYPES.hangman=function(host,st,fin){
+  const words=shuffle(st.words).slice(0,3);
+  let i=0, wins=0;
+  const show=()=>{
+    const w=words[i], word=w.w.toLowerCase();
+    let lives=6, over=false; const got=new Set();
+    host.innerHTML=`<p class="my center">${i+1} / ${words.length}</p><div class="big" aria-hidden="true">${w.e}</div><p class="my center">${w.my}</p><p class="lives" aria-label="Sandcastles left"></p><p class="hw" aria-live="polite"></p><div class="kb">${'abcdefghijklmnopqrstuvwxyz'.split('').map(c=>`<button class="key" data-c="${c}">${c}</button>`).join('')}</div><p class="fb" aria-live="polite"></p><div class="center"><button class="btn" id="nx" hidden>${i<words.length-1?'Next ▶':'Done ✔'}</button></div>`;
+    const lv=host.querySelector('.lives'), hw=host.querySelector('.hw'), fb=host.querySelector('.fb'), nx=host.querySelector('#nx'), keys=[...host.querySelectorAll('.key')];
+    const draw=()=>{ lv.textContent='🏰'.repeat(lives)+'🌊'.repeat(6-lives); hw.textContent=[...word].map(c=>got.has(c)?c:'_').join(' '); };
+    draw();
+    nx.onclick=()=>{ if(i<words.length-1){ i++; show(); } else fin(wins>=3?3:wins===2?2:1); };
+    keys.forEach(k=>k.onclick=()=>{
+      if(over) return;
+      const c=k.dataset.c; k.disabled=true;
+      if(word.includes(c)){
+        got.add(c); k.classList.add('hit'); beep(true); draw();
+        if([...word].every(x=>got.has(x))){ over=true; wins++; fb.className='fb ok'; fb.textContent='✔ '+w.w; tts(w.w); nx.hidden=false; }
+      }else{
+        lives--; k.classList.add('miss'); beep(false); draw();
+        if(lives===0){ over=true; hw.textContent=[...word].join(' '); fb.className='fb bad'; fb.textContent='The word is: '+w.w; nx.hidden=false; }
+      }
+      if(over) keys.forEach(x=>x.disabled=true);
+    });
+  };
+  show();
+};
+
+TYPES.catch=function(host,st,fin){
+  host.innerHTML=`<div class="fc"><div class="big" aria-hidden="true">🦀</div><p class="qt">${st.goal}</p><p class="my">30 seconds. Tap the right crabs!</p><button class="btn" id="go">Start! ▶</button></div>`;
+  host.querySelector('#go').onclick=()=>{
+    let score=0, ended=false, iv=null, to=null;
+    host.innerHTML=`<p class="qt">${st.goal}</p><div class="hud"><span class="chip">⭐ <span id="sc">0</span></span><div class="timer" style="flex:1;margin:0"><i id="tb"></i></div></div><div class="holes">${Array.from({length:9},()=>'<button class="hole" aria-label="hole"></button>').join('')}</div><p class="fb" aria-live="polite"></p>`;
+    const holes=[...host.querySelectorAll('.hole')], sc=host.querySelector('#sc'), tb=host.querySelector('#tb'), fb=host.querySelector('.fb');
+    const clear=h=>{ h.innerHTML=''; h.dataset.good=''; if(h._t){ clearTimeout(h._t); h._t=null; } h.classList.remove('up'); };
+    holes.forEach(h=>h.onclick=()=>{
+      if(!h.classList.contains('up')) return;
+      if(h.dataset.good==='1'){ score++; beep(true); } else { score=Math.max(0,score-1); beep(false); }
+      sc.textContent=score; clear(h);
+    });
+    const end=silent=>{
+      ended=true; clearInterval(iv); clearTimeout(to); holes.forEach(clear);
+      if(!silent){ fb.className='fb ok'; fb.textContent=`Time up! Score: ${score}`; setTimeout(()=>fin(score>=14?3:score>=8?2:1),1200); }
+    };
+    void tb.offsetWidth; tb.style.transition='width 30s linear'; tb.style.width='100%';
+    const spawn=()=>{
+      if(ended) return;
+      if(!document.body.contains(host)){ end(true); return; }
+      const free=holes.filter(h=>!h.classList.contains('up'));
+      if(!free.length) return;
+      const h=free[Math.floor(Math.random()*free.length)];
+      const good=Math.random()<.55, pool=good?st.good:st.bad, w=pool[Math.floor(Math.random()*pool.length)];
+      h.innerHTML=`<span class="cr">🦀</span><span class="cw">${w}</span>`; h.dataset.good=good?'1':'0'; h.classList.add('up');
+      h._t=setTimeout(()=>clear(h),1700);
+    };
+    iv=setInterval(spawn,750);
+    to=setTimeout(()=>end(false),30000);
+  };
+};
+
+/* ===================== START ===================== */
+renderHome();
+window.addEventListener('hashchange',()=>{ if(VIEW.v==='home') renderHome(); });
+setInterval(()=>{ const a=document.activeElement; if(VIEW.v==='home' && S.name && !(a && a.tagName==='INPUT')) renderHome(); },30000);
+</script>
+
+</body></html>
